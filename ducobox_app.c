@@ -29,17 +29,17 @@
 
 #include "duco_radio.h"
 
-#define DUCO_DIR "/ext/apps_data/ducobox"
-#define DUCO_TEMPLATE_PATH DUCO_DIR "/remote.duco"
-#define DUCO_FILE_TYPE "Ducobox RF"
-#define DUCO_FILE_VERSION 1
-#define DUCO_REFRESH_MS 200
-#define DUCO_SCAN_DWELL_MS 400
-#define DUCO_MIN_PACKET 10
+#define DUCO_DIR             "/ext/apps_data/ducobox"
+#define DUCO_TEMPLATE_PATH   DUCO_DIR "/remote.duco"
+#define DUCO_FILE_TYPE       "Ducobox RF"
+#define DUCO_FILE_VERSION    1
+#define DUCO_REFRESH_MS      200
+#define DUCO_SCAN_DWELL_MS   400
+#define DUCO_MIN_PACKET      10
 #define DUCO_FREQUENCY_COUNT 5
-#define DUCO_HOLD_MS 5000
-#define DUCO_MULTI_PRESS_MS 10000
-#define DUCO_STATUS_MS 2000
+#define DUCO_HOLD_MS         5000
+#define DUCO_MULTI_PRESS_MS  10000
+#define DUCO_STATUS_MS       2000
 
 static const uint32_t ducobox_frequencies[DUCO_FREQUENCY_COUNT] = {
     868244000u,
@@ -188,7 +188,8 @@ static DucoboxApp* ducobox_app_alloc(void) {
     view_dispatcher_attach_to_gui(app->view_dispatcher, app->gui, ViewDispatcherTypeFullscreen);
 
     app->widget = widget_alloc();
-    view_dispatcher_add_view(app->view_dispatcher, DucoboxViewListen, widget_get_view(app->widget));
+    view_dispatcher_add_view(
+        app->view_dispatcher, DucoboxViewListen, widget_get_view(app->widget));
 
     app->config_menu = submenu_alloc();
     view_dispatcher_add_view(
@@ -415,8 +416,7 @@ static bool ducobox_remote_input(InputEvent* event, void* context) {
 
     if(event->type == InputTypeRelease) {
         if(app->pending && event->key == app->pending_key) {
-            bool permanent =
-                (furi_get_tick() - app->press_tick) >= furi_ms_to_ticks(DUCO_HOLD_MS);
+            bool permanent = (furi_get_tick() - app->press_tick) >= furi_ms_to_ticks(DUCO_HOLD_MS);
             if(!app->hold_sent) {
                 ducobox_remote_send(app, app->pending_mode, app->pending_button, permanent);
             }

@@ -2,9 +2,15 @@
 
 A Flipper Zero FAP that emulates a Ducobox RF remote. On first start it finds the remote's channel, learns the remote from one button frame, and maps the Flipper's D-pad to Speed 1/2/3/Auto. Config allows re-learning or deleting the saved remote.
 
+## Disclaimer
+
+I do not work for Duco and this project is not affiliated with or endorsed by Duco. It is an amateur learning project, not a supported Duco product. Use it at your own risk.
+
 ## Install
 
-Connect the Flipper over USB and, from the repository root, run:
+If Ducobox is available in the Flipper Apps Catalog, install it from there under **Sub-GHz**.
+
+To build and install from source, connect the Flipper over USB and, from the repository root, run:
 
 ```bash
 nix-shell --run "make launch"
@@ -163,7 +169,7 @@ The physical controller's frames can fail the CC1101 CRC check (`Crc: 0`) becaus
 - Setup accepts only remote-to-box frames (destination address 1). This avoids learning the Ducobox's own `0x22` confirmation frames when a button is pressed.
 - The app sends one frame per tap or hold. The 4-bit counter is incremented for every send; the box accepted this during testing.
 - 868.3 MHz transmission must be permitted in your region. `furi_hal_subghz_tx()` enforces the Flipper region setting and the app reports a failure if transmission is blocked.
-- This is an experiment, not a supported Duco product. Check the local rules for short-range devices before transmitting.
+- This is an amateur learning project. Check the local rules for short-range devices before transmitting.
 
 ## Sources
 
@@ -192,4 +198,15 @@ The physical controller's frames can fail the CC1101 CRC check (`Crc: 0`) becaus
  sdk                pinned Flipper SDK installer
  shell.nix          ufbt build environment
  Makefile           build/clean/launch wrappers
+ CATALOG.md         Apps Catalog description
+ changelog.md       Apps Catalog changelog
+ manifest.yml       Apps Catalog manifest template
+ screenshots/       Apps Catalog screenshots
+ LICENSE            MIT license
+ PUBLISHING.md      Apps Catalog submission steps
 ```
+
+## License
+
+MIT. See [`LICENSE`](LICENSE). The application icon is based on Boxicons and is covered by the notice in [`ICON.md`](ICON.md).
+

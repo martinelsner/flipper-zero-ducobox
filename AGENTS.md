@@ -33,8 +33,13 @@ make update     # re-fetch the pinned SDK
 
 | Path | Purpose |
 | --- | --- |
-| `application.fam` | FAP manifest: appid `ducobox`, entry `ducobox_app`, 4 KiB stack, icon `ducobox.png`, sources `ducobox_app.c` and `duco_radio.c`. |
+| `application.fam` | FAP manifest: appid `ducobox`, entry `ducobox_app`, 4 KiB stack, icon `ducobox.png`, author/description, `targets=["f7"]`, sources `ducobox_app.c` and `duco_radio.c`. |
 | `ducobox.png` | 10x10 1-bit FAP icon; source and license in `ICON.md`. |
+| `LICENSE` | MIT license for the app. The icon attribution is separate in `ICON.md`. |
+| `.clang-format` | Flipper C style used by `ufbt lint`; keep the sources formatted. |
+| `CATALOG.md`, `changelog.md`, `manifest.yml` | Flipper Apps Catalog metadata. `manifest.yml` is a template until the public repo URL and commit SHA are filled in. |
+| `screenshots/` | Apps Catalog screenshots; `ss0.png` is the current remote-screen capture. |
+| `PUBLISHING.md` | Steps for publishing and updating the app in the Flipper Apps Catalog. |
 | `ducobox_app.c` | All UI and state: setup sweep, template storage, config, remote screen, input, timer, RPC-free storage helpers. |
 | `duco_radio.c/.h` | CC1101 preset, packet RX/TX, RSSI, retune. |
 | `sdk` | Downloads/extracts the pinned firmware SDK, writes `ufbt_state.json`, symlinks the toolchain. |
@@ -84,6 +89,14 @@ make update     # re-fetch the pinned SDK
 - The USB serial CLI, `make screen`, and `make launch` cannot use the port simultaneously.
 - The u8g2 frame is page-major: `data[page * 128 + x]`, bit 0 is the top pixel of the page. Do not treat it as row-major.
 
+## Apps Catalog
+
+- `ufbt format` and `ufbt lint` must pass before submitting. The catalog CI runs the same lint against the latest release SDK, not the local `FW_VERSION` pin.
+- `CATALOG.md` and `changelog.md` must stay within the catalog's Markdown subset: no code blocks, tables, inline code, or headings deeper than level 2.
+- `manifest.yml` is the catalog template. Fill `sourcecode.location.origin` and `commit_sha` after pushing to a public GitHub repo; the catalog builds from that commit.
+- The catalog builds with the latest release SDK (currently 1.5.1, API 88.2). The local `make` still targets API 87.1.
+- `screenshots/ss0.png` must be 512x256 or 1024x512; the catalog validator downsizes it to 128x64.
+
 ## Known state on the test device
 
 - FAP installed at `/ext/apps/Sub-GHz/ducobox.fap`, built for API 87.1.
@@ -99,5 +112,6 @@ Update `AGENTS.md`, and the matching human-facing `README.md`, in the same chang
 - `.duco` format, template path, command encoding, CC1101 preset, or swept frequency list.
 - Screen capture tooling or device paths.
 - Application icon asset or its license/attribution (`ducobox.png`, `ICON.md`).
+- Apps Catalog metadata or submission files (`manifest.yml`, `CATALOG.md`, `changelog.md`, `screenshots/`).
 
 Keep this file concise and directive. If a statement here becomes stale, fix it rather than leaving a known-wrong instruction.

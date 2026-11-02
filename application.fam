@@ -9,4 +9,7 @@ App(
     fap_version="0.1",
     fap_category="Sub-GHz",
     fap_icon="ducobox.png",
+    fap_author="Martin Elsner",
+    fap_description="Control a Ducobox ventilation unit with your Flipper Zero.",
+    targets=["f7"],
 )
