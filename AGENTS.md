@@ -8,6 +8,22 @@ Flipper Zero FAP ("Ducobox") that emulates a Ducobox RF remote. On first run it 
 
 Target: Flipper Zero (f7). The test device runs Momentum `mntm-012`, firmware API **87.1**. The FAP must be built for the device's API or the loader reports "app too new".
 
+## Git and publishing
+
+- **Do not commit or push by yourself.** Only commit, push, create remotes, or publish the repository when the user explicitly asks. Do not amend, force-push, or rewrite history unless the user asks.
+
+## General
+
+- **Keep it simple.** Solve the problem at hand in the simplest conventional way. Check whether this repository already solves it, then search the web, before writing new code.
+- **Prefer packaged tools.** Before hand-rolling something, check nixpkgs and the Flipper SDK. Use `nix-shell -p <package> --run ...` for one-off tools instead of installing them system-wide.
+- **Don't hard-wrap prose.** Keep paragraphs on one line in Markdown, docs and comments; let the editor wrap them.
+- **Preserve relevant comments when refactoring.** Keep comments that still apply and update them when the context changes.
+- **Avoid inline multi-step scripts.** Put reusable shell or Python sequences in real script files (`screen`, `sdk`) and call those; do not bury long snippets in configs or docs.
+- **Ask before complex workarounds.** If a supported setting or API cannot do the job, confirm before overriding source files, repackaging, or taking a fragile route.
+- **Never commit secrets.** Do not add tokens, passwords, private keys, credentials, or personal data to the repository. Keep them in the user's secret store or an untracked local file; if a secret appears in the working tree, stop and remove it before committing.
+- **Security first.** Choose the safer option when changing configs or scripts: least privilege, validated inputs, and safe defaults.
+- **Keep `AGENTS.md` agent-facing.** Put human-facing explanations and procedures in `README.md`; the store-facing summary lives in `CATALOG.md`.
+
 ## Build and run
 
 All commands run from the repository root. Use this project's `nix-shell`; the Flipper toolchain is not available on the host.
@@ -37,7 +53,7 @@ make update     # re-fetch the pinned SDK
 | `ducobox.png` | 10x10 1-bit FAP icon; source and license in `ICON.md`. |
 | `LICENSE` | MIT license for the app. The icon attribution is separate in `ICON.md`. |
 | `.clang-format` | Flipper C style used by `ufbt lint`; keep the sources formatted. |
-| `CATALOG.md`, `changelog.md`, `manifest.yml` | Flipper Apps Catalog metadata. `manifest.yml` is a template until the public repo URL and commit SHA are filled in. |
+| `CATALOG.md`, `changelog.md`, `manifest.template.yml` | Flipper Apps Catalog metadata. `manifest.template.yml` is tracked; copy it to the gitignored `manifest.yml` and fill in the public repo URL and commit SHA. |
 | `screenshots/` | Apps Catalog screenshots; `ss0.png` is the current remote-screen capture. |
 | `PUBLISHING.md` | Steps for publishing and updating the app in the Flipper Apps Catalog. |
 | `ducobox_app.c` | All UI and state: setup sweep, template storage, config, remote screen, input, timer, RPC-free storage helpers. |
@@ -93,7 +109,7 @@ make update     # re-fetch the pinned SDK
 
 - `ufbt format` and `ufbt lint` must pass before submitting. The catalog CI runs the same lint against the latest release SDK, not the local `FW_VERSION` pin.
 - `CATALOG.md` and `changelog.md` must stay within the catalog's Markdown subset: no code blocks, tables, inline code, or headings deeper than level 2.
-- `manifest.yml` is the catalog template. Fill `sourcecode.location.origin` and `commit_sha` after pushing to a public GitHub repo; the catalog builds from that commit.
+- `manifest.template.yml` is the catalog template. Copy it to the gitignored `manifest.yml`, then fill `sourcecode.location.origin` and `commit_sha` after pushing to a public GitHub repo; the catalog builds from that commit.
 - The catalog builds with the latest release SDK (currently 1.5.1, API 88.2). The local `make` still targets API 87.1.
 - `screenshots/ss0.png` must be 512x256 or 1024x512; the catalog validator downsizes it to 128x64.
 
@@ -112,6 +128,6 @@ Update `AGENTS.md`, and the matching human-facing `README.md`, in the same chang
 - `.duco` format, template path, command encoding, CC1101 preset, or swept frequency list.
 - Screen capture tooling or device paths.
 - Application icon asset or its license/attribution (`ducobox.png`, `ICON.md`).
-- Apps Catalog metadata or submission files (`manifest.yml`, `CATALOG.md`, `changelog.md`, `screenshots/`).
+- Apps Catalog metadata or submission files (`manifest.template.yml`, `CATALOG.md`, `changelog.md`, `screenshots/`).
 
 Keep this file concise and directive. If a statement here becomes stale, fix it rather than leaving a known-wrong instruction.

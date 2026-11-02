@@ -20,22 +20,22 @@ not `main`, adjust the commands.
 
 ## 2. Create the catalog manifest
 
-The `manifest.yml` in this repository is a template. Copy it somewhere outside
-the repository and fill in:
+The tracked `manifest.template.yml` is the template. Copy it once to the
+gitignored `manifest.yml` and fill in:
 
 - `YOUR_GITHUB_USER` with your GitHub account name.
 - `YOUR_COMMIT_SHA` with the full SHA of the pushed commit.
 
 ```bash
-cp manifest.yml /tmp/ducobox-manifest.yml
+cp manifest.template.yml manifest.yml
 git rev-parse HEAD
-# edit /tmp/ducobox-manifest.yml with your account and the SHA
+# edit manifest.yml with your account and the SHA
 ```
 
 The remaining metadata (name, ID, category, version, author, icon, short
 description) is read from `application.fam`. The catalog reads the copy of the
-manifest in its own repository; the template in this repository can stay as it
-is.
+manifest in its own repository; `manifest.template.yml` stays tracked and
+`manifest.yml` stays local.
 
 ## 3. Validate the submission
 
@@ -51,7 +51,7 @@ python3 -m venv venv
 pip install -r tools/requirements.txt
 
 mkdir -p applications/Sub-GHz/ducobox
-cp /tmp/ducobox-manifest.yml applications/Sub-GHz/ducobox/manifest.yml
+cp /path/to/flipper-zero-ducobox/manifest.yml applications/Sub-GHz/ducobox/manifest.yml
 python3 tools/bundle.py applications/Sub-GHz/ducobox/manifest.yml bundle.zip
 ```
 
@@ -66,7 +66,7 @@ runs, or enable `programs.nix-ld`.
 ## 4. Open the pull request
 
 1. Fork `flipperdevices/flipper-application-catalog` on GitHub.
-2. Add the filled `/tmp/ducobox-manifest.yml` as
+2. Add the filled `manifest.yml` from your source checkout as
    `applications/Sub-GHz/ducobox/manifest.yml` in the fork. Do not add the rest
    of the app there.
 3. Create a branch such as `YOUR_GITHUB_USER/ducobox_0.1`, commit, and push.
@@ -75,7 +75,8 @@ runs, or enable `programs.nix-ld`.
 
 When the PR is merged, the app appears under **Sub-GHz** in the mobile apps and
 Flipper Lab. Future updates require a higher `fap_version` in `application.fam`
-and a new `manifest.yml` with the new commit SHA.
+and a new `manifest.yml` (copied from `manifest.template.yml`) with the new
+commit SHA.
 
 ## Notes
 

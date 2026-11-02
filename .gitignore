@@ -1,3 +1,4 @@
 .ufbt/
 .vscode/
 dist/
+manifest.yml

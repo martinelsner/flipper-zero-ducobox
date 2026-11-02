@@ -1,6 +1,6 @@
 # Ducobox Flipper app
 
-A Flipper Zero FAP that emulates a Ducobox RF remote. On first start it finds the remote's channel, learns the remote from one button frame, and maps the Flipper's D-pad to Speed 1/2/3/Auto. Config allows re-learning or deleting the saved remote.
+A Flipper Zero FAP that emulates a Ducobox RF remote. A Ducobox is a Duco ventilation unit for homes: it extracts stale air and supplies fresh air through ductwork. On first start the app finds the remote's channel, learns the remote from one button frame, and maps the Flipper's D-pad to Speed 1/2/3/Auto. Config allows re-learning or deleting the saved remote.
 
 ## Disclaimer
 
@@ -200,7 +200,7 @@ The physical controller's frames can fail the CC1101 CRC check (`Crc: 0`) becaus
  Makefile           build/clean/launch wrappers
  CATALOG.md         Apps Catalog description
  changelog.md       Apps Catalog changelog
- manifest.yml       Apps Catalog manifest template
+ manifest.template.yml  Apps Catalog manifest template (copy to manifest.yml)
  screenshots/       Apps Catalog screenshots
  LICENSE            MIT license
  PUBLISHING.md      Apps Catalog submission steps
